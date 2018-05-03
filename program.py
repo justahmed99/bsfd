@@ -1,4 +1,3 @@
-Ini adalah edit
 import cv2 as cv
 import numpy as np
 
@@ -17,13 +16,23 @@ def imgGrayscaling(f) :
 def adaptiveThreshold(f) :
     return cv.adaptiveThreshold(f, 255, cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY, 115, 1)
 
+def showVideo(name, source) :
+    cv.namedWindow(name, cv.WINDOW_NORMAL)
+    cv.resizeWindow(name, 600, 400)
+    return cv.imshow(name, source)
+
 #inisiasi kamera
 cam = cv.VideoCapture(0)
 
 # Bagian pendeklarasian tampilan window
-windowName = "Deteksi gerak"
-cv.namedWindow(windowName, cv.WINDOW_NORMAL)
-cv.resizeWindow(windowName, 600, 400)
+#windowName = "Deteksi gerak"
+#cv.namedWindow(windowName, cv.WINDOW_NORMAL)
+#cv.resizeWindow(windowName, 600, 400)
+
+#mainWindow = "Monitor"
+#cv.namedWindow(mainWindow, cv.WINDOW_NORMAL)
+#cv.resizeWindow(mainWindow, 600,400)
+
 
 # Deklarasi pengambilan pertama frame f(i-5), f(i), dan f(i+5)
 fMin5Input = imgGrayscaling(cam.read()[1])
@@ -40,8 +49,10 @@ imageRef = f    # jangan diubah
 count = 0
 while True :
     #display gambar
-    cv.imshow(windowName, imgDiff(fMin5, f, fPlus5))
-
+    #cv.imshow(windowName, imgDiff(fMin5, f, fPlus5))
+    #cv.imshow(mainWindow, cam.read()[1])
+    showVideo("Binary image", imgDiff(fMin5, f, fPlus5))
+    showVideo("Monitor", cam.read()[1])
     # pengambilan nilai matriks D(i-5) dan D(i+5) dengan fungsi imgDiff kemudian
     # penentuan objek bergerak
     movObject = imgDiff(fMin5, f, fPlus5)
@@ -67,7 +78,7 @@ while True :
 
     key = cv.waitKey(10)
     if key == 27 :
-        cv.destroyWindow(windowName)
+        cv.destroyAllWindows()
         break
 
 print("Program Berhenti")
