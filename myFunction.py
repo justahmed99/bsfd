@@ -15,6 +15,9 @@ def imgGrayscaling(f) :
 def adaptiveThreshold(f) :
     return cv.adaptiveThreshold(f, 255, cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY, 115, 1)
 
+def otsuThresholding(f):
+    return cv.threshold(f, 0, 255, cv.THRESH_BINARY+cv.THRESH_OTSU)
+
 def showVideo(name, source) :
     cv.namedWindow(name, cv.WINDOW_NORMAL)
     cv.resizeWindow(name, 600, 400)
