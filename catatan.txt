@@ -1,0 +1,2 @@
+- coba threshold yang lain.
+- tampilkan gambar nyata.
