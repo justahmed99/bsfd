@@ -10,9 +10,9 @@ fInput = mF.imgGrayscaling(cam.read()[1])
 fPlus5Input = mF.imgGrayscaling(cam.read()[1])
 
 # Penerapan adaptive threshold mean c
-ret, fMin5 = mF.otsuThresholding(fMin5Input)
-ret1, f = mF.otsuThresholding(fInput)
-ret2, fPlus5 = mF.otsuThresholding(fPlus5Input)
+fMin5 = mF.adaptiveThreshold(fMin5Input)
+f = mF.adaptiveThreshold(fInput)
+fPlus5 = mF.adaptiveThreshold(fPlus5Input)
 
 # Deklarasi awal gambar referensi
 imageRef = f    # jangan diubah
@@ -43,7 +43,7 @@ while True :
     f = fPlus5
 
 
-    ret4, fPlus5 = mF.otsuThresholding(mF.imgGrayscaling(cam.read()[1]))
+    fPlus5 = mF.adaptiveThreshold(mF.imgGrayscaling(cam.read()[1]))
 
     key = cv.waitKey(10)
     if key == 27 :
