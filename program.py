@@ -1,54 +1,33 @@
 import cv2 as cv
-import numpy as np
-
-# fungsi yang digunakan
-def imgDiff(f0, f1, f2) :
-    diff1 = cv.absdiff(f2, f1)
-    diff2 = cv.absdiff(f1, f2)
-    return cv.bitwise_and(diff1, diff2)
-
-def imgSub(f1, f0) :
-    return cv.absdiff(f1, f0)
-
-def imgGrayscaling(f) :
-    return cv.cvtColor(f, cv.COLOR_RGB2GRAY)
-
-def adaptiveThreshold(f) :
-    return cv.adaptiveThreshold(f, 255, cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY, 115, 1)
-
-def showVideo(name, source) :
-    cv.namedWindow(name, cv.WINDOW_NORMAL)
-    cv.resizeWindow(name, 600, 400)
-    return cv.imshow(name, source)
-
+import myFunction as mF
 
 #inisiasi kamera
 cam = cv.VideoCapture(0)
 
 # Deklarasi pengambilan pertama frame f(i-5), f(i), dan f(i+5)
-fMin5Input = imgGrayscaling(cam.read()[1])
-fInput = imgGrayscaling(cam.read()[1])
-fPlus5Input = imgGrayscaling(cam.read()[1])
+fMin5Input = mF.imgGrayscaling(cam.read()[1])
+fInput = mF.imgGrayscaling(cam.read()[1])
+fPlus5Input = mF.imgGrayscaling(cam.read()[1])
 
 # Penerapan adaptive threshold mean c
-fMin5 = adaptiveThreshold(fMin5Input)
-f = adaptiveThreshold(fInput)
-fPlus5 = adaptiveThreshold(fPlus5Input)
+fMin5 = mF.adaptiveThreshold(fMin5Input)
+f = mF.adaptiveThreshold(fInput)
+fPlus5 = mF.adaptiveThreshold(fPlus5Input)
 
 # Deklarasi awal gambar referensi
 imageRef = f    # jangan diubah
 count = 0
 while True :
     #display gambar
-
-    showVideo("Binary image", imgDiff(fMin5, f, fPlus5))
+    mF.showVideo("Binary image", mF.imgDiff(fMin5, f, fPlus5))
     #showVideo("Monitor", cam.read()[1])
+
     # pengambilan nilai matriks D(i-5) dan D(i+5) dengan fungsi imgDiff kemudian
     # penentuan objek bergerak
-    movObject = imgDiff(fMin5, f, fPlus5)
+    movObject = mF.imgDiff(fMin5, f, fPlus5)
 
     #penentuan background image
-    bGround = imgSub(movObject, f)
+    bGround = mF.imgSub(movObject, f)
 
     # generate Revised Background Image (RBI)
     RBI = cv.bitwise_or(imageRef, bGround)
@@ -64,7 +43,7 @@ while True :
     f = fPlus5
 
 
-    fPlus5 = adaptiveThreshold(imgGrayscaling(cam.read()[1]))
+    fPlus5 = mF.adaptiveThreshold(mF.imgGrayscaling(cam.read()[1]))
 
     key = cv.waitKey(10)
     if key == 27 :
