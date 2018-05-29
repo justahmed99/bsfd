@@ -20,7 +20,7 @@ count = 0
 while True :
     #display gambar
     mF.showVideo("Binary image", mF.imgDiff(fMin5, f, fPlus5))
-    #showVideo("Monitor", cam.read()[1])
+    mF.showVideo('referensi', imageRef)
 
     # pengambilan nilai matriks D(i-5) dan D(i+5) dengan fungsi imgDiff kemudian
     # penentuan objek bergerak
@@ -28,20 +28,23 @@ while True :
 
     #penentuan background image
     bGround = mF.imgSub(movObject, f)
+    #mF.showVideo('bGround', bGround)
 
     # generate Revised Background Image (RBI)
-    RBI = cv.bitwise_or(imageRef, bGround)
+    RBI = cv.bitwise_and(imageRef, bGround)
     imageRef = RBI
+    mF.showVideo('rbi', RBI)
 
     # pendeteksian objek bergerak
     mov = cv.absdiff(RBI, f)
-    if mov.all() != RBI.all() :
+    mF.showVideo('mov', mov)
+    mF.showVideo('f', f)
+    if mov.all() != 0 :
         count += 1
         print("Warning, ", count)
     # swap frame
     fMin5 = f
     f = fPlus5
-
 
     fPlus5 = mF.adaptiveThreshold(mF.imgGrayscaling(cam.read()[1]))
 
