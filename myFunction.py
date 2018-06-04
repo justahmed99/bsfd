@@ -6,9 +6,9 @@ def imgDiff(f0, f1, f2) :
     diff2 = cv.absdiff(f2, f1)
     gs1 = imgGrayscaling(diff1)
     gs2 = imgGrayscaling(diff2)
-    _, otsu1 = cv.threshold(gs1, 50, 255, cv.THRESH_BINARY+cv.THRESH_OTSU)
-    __, otsu2 = cv.threshold(gs2, 50, 255, cv.THRESH_BINARY+cv.THRESH_OTSU)
-    return cv.bitwise_and(diff1, diff2)
+    otsu1 = cv.adaptiveThreshold(gs1)
+    otsu2 = cv.adaptiveThreshold(gs2)
+    return cv.bitwise_and(otsu1, otsu2)
 
 def imgSub(f1, f0) :
     return cv.absdiff(f1, f0)
@@ -22,7 +22,10 @@ def adaptiveThreshold(f) :
 def otsuThresholding(f):
     return cv.threshold(f, 50, 255, cv.THRESH_BINARY+cv.THRESH_OTSU)
 
+def binaryThresholding(f) :
+    return cv.threshold(f, 50, 255, cv.THRESH_BINARY)
+
 def showVideo(name, source) :
     cv.namedWindow(name, cv.WINDOW_NORMAL)
     cv.resizeWindow(name, 600, 400)
-    return cv.imshow(name, source)
+    cv.imshow(name, source)
