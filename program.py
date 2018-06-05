@@ -1,8 +1,9 @@
 import cv2 as cv
 import myFunction as mF
+from matplotlib import pyplot as plt
 
 #inisiasi kamera
-cam = cv.VideoCapture(1)
+cam = cv.VideoCapture(0)
 
 # Deklarasi pengambilan pertama frame f(i-5), f(i), dan f(i+5)
 fMin5Input = cv.blur(cam.read()[1], (10,10))
@@ -24,6 +25,7 @@ while True :
         times = times + 1
         print('Gambar referensi baru telah diambil. ke-'+str(times))
         count = 0
+    #plt.subplot(1,2,2, mF.showVideo('referensi', cam.read()[1]))
     mF.showVideo('referensi', imageRef)
 
     # pengambilan nilai matriks D(i-5) dan D(i+5) dengan fungsi imgDiff kemudian
@@ -41,8 +43,8 @@ while True :
     #mF.showVideo('rbi', RBI)
 
     # pendeteksian objek bergerak
-    #mov = cv.absdiff(RBI, f)
-    #mF.showVideo('mov', mov)
+    mov = cv.absdiff(bGround, imageRef)
+    mF.showVideo('mov', mov)
     #mF.showVideo('f', imageRef)
     #if mov.all() != 0 :
     #    count += 1
