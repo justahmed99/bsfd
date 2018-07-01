@@ -13,11 +13,20 @@ fMin5Input = cv.blur(cam.read()[1], (10,10))
 fInput = cv.blur(cam.read()[1], (10,10))
 fPlus5Input = cv.blur(cam.read()[1], (10,10))
 
-# Deklarasi awal gambar referensi
-# akan berubah sesuai dengan interval
-__,imageRef = mF.binaryThresholding(mF.imgGrayscaling(fInput))
+# Kontrol awal user
+th, val = mF.userControl()
 
-# cap merupakan variabel-variabel yang digunakan untuk menjadi indikator
+# Deklarasi awal gambar referensi
+imageRef = mF.imgGrayscaling(fInput)
+if th == 1 :
+    _,imageRef = mF.binaryThresholding(imageRef, val)
+elif th == 2 :
+    _,imageRef = mF.otsuThresholding(imageRef, val)
+elif th == 3 :
+    imageRef = mF.adaptiveThresholding(imageRef, val)
+print(th)
+print(val)
+# cap merupakan variabel yang digunakan untuk menjadi indikator
 cap = 0
 
 while True :
@@ -27,11 +36,11 @@ while True :
 
     # pengambilan nilai matriks D(i-1) dan D(i+1) dengan fungsi imgDiff kemudian
     # penentuan objek bergerak
-    movObject = mF.imgDiff(fMin5Input, fInput, fPlus5Input)
+    movObject = mF.imgDiff(fMin5Input, fInput, fPlus5Input, th, val)
     mF.showVideo('movObject', movObject)
 
     # penentuan background image
-    bGround = mF.imgSub(movObject, imageRef)
+    bGround = cv.absdiff(movObject, imageRef)
     mF.showVideo('bGround', bGround)
 
     # pendeteksian objek bergerak
@@ -42,7 +51,12 @@ while True :
     if time.localtime()[5] == 30 or time.localtime()[5] == 0 :
         refBlur = cv.blur(cam.read()[1], (10,10))
         print('gambar referensi diperbaru')
-        _,imageRef = mF.binaryThresholding(mF.imgGrayscaling(refBlur))
+        if th == 1 :
+            __,imageRef = mF.binaryThresholding(mF.imgGrayscaling(refBlur), val)
+        elif th == 2 :
+            __,imageRef = mF.otsuThresholding(mF.imgGrayscaling(refBlur), val)
+        elif th == 3 :
+            imageRef = mF.adaptiveThresholding(mF.imgGrayscaling(refBlur), val)
 
     # swap frame
     fMin5Input = fInput
