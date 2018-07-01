@@ -1,4 +1,5 @@
 import cv2 as cv
+import time
 
 # fungsi yang digunakan
 def imgDiff(f0, f1, f2) :
@@ -17,15 +18,15 @@ def imgGrayscaling(f) :
     return cv.cvtColor(f, cv.COLOR_RGB2GRAY)
 
 def adaptiveThresholding(f) :
-    return cv.adaptiveThreshold(f, 255, cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY, 115, 1)
+    return cv.adaptiveThreshold(f, 255, cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY, 151, 1)
 
 def otsuThresholding(f):
-    return cv.threshold(f, 50, 255, cv.THRESH_BINARY+cv.THRESH_OTSU)
+    return cv.threshold(f, 100, 255, cv.THRESH_BINARY+cv.THRESH_OTSU)
 
 def binaryThresholding(f) :
-    return cv.threshold(f, 50, 255, cv.THRESH_BINARY)
+    return cv.threshold(f, 100, 255, cv.THRESH_BINARY)
 
 def showVideo(name, source) :
     cv.namedWindow(name, cv.WINDOW_NORMAL)
-    cv.resizeWindow(name, 300, 200)
+    cv.resizeWindow(name, 320, 240)
     cv.imshow(name, source)

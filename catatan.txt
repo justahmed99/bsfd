@@ -1,3 +1,2 @@
-- coba threshold yang lain.
-- tampilkan gambar nyata.
-- coba pakai filter noise median atau konvolusi, daripada mean.
+- ekspresimen : ruang dan jam berapa.
+- masukkan ketiga eksperimen
