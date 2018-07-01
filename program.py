@@ -72,7 +72,7 @@ while True :
     elif key == ord('c') :
         # mengambil gambar
         cap = cap+1
-        cv.imwrite('mov'+str(cap)+'.jpg', movObject)
+        cv.imwrite('mov'+str(cap)+'.jpg', mov)
         cv.imwrite('cap'+str(cap)+'.jpg', cam.read()[1])
         cv.imwrite('imageRef'+str(cap)+'.jpg', imageRef)
         cv.imwrite('movObject'+str(cap)+'.jpg', movObject)
