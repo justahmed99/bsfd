@@ -9,9 +9,9 @@ cam.set(3, 640)
 cam.set(4, 480)
 
 # Deklarasi pengambilan pertama frame f(i-1), f(i), dan f(i+1)
-fMin5Input = cv.blur(cam.read()[1], (10,10))
+fMin1Input = cv.blur(cam.read()[1], (10,10))
 fInput = cv.blur(cam.read()[1], (10,10))
-fPlus5Input = cv.blur(cam.read()[1], (10,10))
+fPlus1Input = cv.blur(cam.read()[1], (10,10))
 
 # Kontrol awal user
 th, val = mF.userControl()
@@ -59,10 +59,10 @@ while True :
             imageRef = mF.adaptiveThresholding(mF.imgGrayscaling(refBlur), val)
 
     # swap frame
-    fMin5Input = fInput
-    fInput = fPlus5Input
+    fMin1Input = fInput
+    fInput = fPlus1Input
 
-    fPlus5Input = cv.blur(cam.read()[1], (10,10))
+    fPlus1Input = cv.blur(cam.read()[1], (10,10))
 
     # mekanisme keluar program
     key = cv.waitKey(10)
@@ -78,9 +78,5 @@ while True :
         cv.imwrite('movObject'+str(cap)+'.jpg', movObject)
         cv.imwrite('bGround'+str(cap)+'.jpg', bGround)
         print('mengambil gambar ke'+str(cap))
-    elif key == ord('m') :
-        cap2 = cap2+1
-        cv.imwrite('cap'+str(cap2)+'.jpg', mov)
-        print('mengambil gambar cap'+str(cap2)+'.jpg')
 
 print("Program Berhenti")
