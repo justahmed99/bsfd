@@ -36,7 +36,7 @@ while True :
 
     # pengambilan nilai matriks D(i-1) dan D(i+1) dengan fungsi imgDiff kemudian
     # penentuan objek bergerak
-    movObject = mF.imgDiff(fMin5Input, fInput, fPlus5Input, th, val)
+    movObject = mF.imgDiff(fMin1Input, fInput, fPlus1Input, th, val)
     mF.showVideo('movObject', movObject)
 
     # penentuan background image
@@ -61,7 +61,6 @@ while True :
     # swap frame
     fMin1Input = fInput
     fInput = fPlus1Input
-
     fPlus1Input = cv.blur(cam.read()[1], (10,10))
 
     # mekanisme keluar program
