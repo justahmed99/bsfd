@@ -5,6 +5,8 @@ import time
 
 #inisiasi kamera
 cam = cv.VideoCapture(1)
+if cam.isOpened() == False:
+    cam = cv.VideoCapture(0)
 cam.set(3, 640)
 cam.set(4, 480)
 
@@ -32,7 +34,6 @@ cap = 0
 while True :
     #display gambar
     mF.showVideo('camera', cam.read()[1])
-    mF.showVideo('referensi', imageRef)
 
     # pengambilan nilai matriks D(i-1) dan D(i+1) dengan fungsi imgDiff kemudian
     # penentuan objek bergerak
@@ -41,7 +42,6 @@ while True :
 
     # penentuan background image
     bGround = cv.absdiff(movObject, imageRef)
-    mF.showVideo('bGround', bGround)
 
     # pendeteksian objek bergerak
     mov = cv.absdiff(bGround, imageRef)
